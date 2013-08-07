@@ -231,37 +231,20 @@
 		showControls: function(doAnimation) {
 			var t = this;
 
-			doAnimation = typeof doAnimation == 'undefined' || doAnimation;
-
 			if (t.controlsAreVisible)
 				return;
 
-			if (doAnimation) {
-				t.controls
-					.css('visibility','visible')
-					.stop(true, true).fadeIn(200, function() {
-					      t.controlsAreVisible = true;
-					      t.container.trigger('controlsshown');
-					});
+			t.controls
+				.css('visibility','visible')
+				.css('display','block');
 
-				// any additional controls people might add and want to hide
-				t.container.find('.mejs-control')
-					.css('visibility','visible')
-					.stop(true, true).fadeIn(200, function() {t.controlsAreVisible = true;});
+			// any additional controls people might add and want to hide
+			t.container.find('.mejs-control')
+				.css('visibility','visible')
+				.css('display','block');
 
-			} else {
-				t.controls
-					.css('visibility','visible')
-					.css('display','block');
-
-				// any additional controls people might add and want to hide
-				t.container.find('.mejs-control')
-					.css('visibility','visible')
-					.css('display','block');
-
-				t.controlsAreVisible = true;
-				t.container.trigger('controlsshown');
-			}
+			t.controlsAreVisible = true;
+			t.container.trigger('controlsshown');
 
 			t.setControlsSize();
 
@@ -270,43 +253,21 @@
 		hideControls: function(doAnimation) {
 			var t = this;
 
-			doAnimation = typeof doAnimation == 'undefined' || doAnimation;
-
 			if (!t.controlsAreVisible)
 				return;
 
-			if (doAnimation) {
-				// fade out main controls
-				t.controls.stop(true, true).fadeOut(200, function() {
-					$(this)
-						.css('visibility','hidden')
-						.css('display','block');
+			// hide main controls
+			t.controls
+				.css('visibility','hidden')
+				.css('display','block');
 
-					t.controlsAreVisible = false;
-					t.container.trigger('controlshidden');
-				});
+			// hide others
+			t.container.find('.mejs-control')
+				.css('visibility','hidden')
+				.css('display','block');
 
-				// any additional controls people might add and want to hide
-				t.container.find('.mejs-control').stop(true, true).fadeOut(200, function() {
-					$(this)
-						.css('visibility','hidden')
-						.css('display','block');
-				});
-			} else {
-
-				// hide main controls
-				t.controls
-					.css('visibility','hidden')
-					.css('display','block');
-
-				// hide others
-				t.container.find('.mejs-control')
-					.css('visibility','hidden')
-					.css('display','block');
-
-				t.controlsAreVisible = false;
-				t.container.trigger('controlshidden');
-			}
+			t.controlsAreVisible = false;
+			t.container.trigger('controlshidden');
 		},
 
 		controlsTimer: null,
