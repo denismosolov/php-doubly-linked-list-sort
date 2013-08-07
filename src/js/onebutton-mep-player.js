@@ -125,7 +125,10 @@
 				}),
 				tagName = t.media.tagName.toLowerCase();
 
-			t.isDynamic = (tagName !== 'audio' && tagName !== 'video');
+			t.isDynamic = (tagName !== 'audio');
+			if (tagName !== 'audio') {
+				throw "OnebuttonMediaElementPlayer: audio expected, but " + tagName + " founded";
+			}
 
 			// use native controls in iPad, iPhone, and Android
 			if ((mf.isiPad && t.options.iPadUseNativeControls) || (mf.isiPhone && t.options.iPhoneUseNativeControls)) {
