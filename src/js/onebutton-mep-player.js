@@ -417,7 +417,7 @@
 
 			if (!(mf.isAndroid && t.options.AndroidUseNativeControls) && !(mf.isiPad && t.options.iPadUseNativeControls) && !(mf.isiPhone && t.options.iPhoneUseNativeControls)) {
 				// grab for use by features
-				t.findTracks();
+				//t.findTracks(); // @todo: probably no need for onebuttonplayer
 
 				// add user-defined features/controls
 				for (featureIndex in t.options.features) {
@@ -762,7 +762,7 @@
 			if (t.setCurrentRail)
 				t.setCurrentRail();
 		},
-
+/*
 		findTracks: function() {
 			var t = this,
 				tracktags = t.$media.find('track');
@@ -783,6 +783,7 @@
 				});
 			});
 		},
+*/
 		changeSkin: function(className) {
 			this.container[0].className = 'mejs-container ' + className;
 			this.setPlayerSize(this.width, this.height);
