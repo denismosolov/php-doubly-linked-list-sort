@@ -27,8 +27,6 @@
 		// rewind to beginning when media ends
                 autoRewind: true,
 
-		// Hide controls when playing and mouse is not over the video
-		alwaysShowControls: false,
 		// force iPad's native controls
 		iPadUseNativeControls: false,
 		// force iPhone's native controls
@@ -443,7 +441,7 @@
 
 					if (t.options.loop) {
 						t.media.play();
-					} else if (!t.options.alwaysShowControls && t.controlsEnabled) {
+					} else if (t.controlsEnabled) {
 						t.showControls();
 					}
 				}, false);
