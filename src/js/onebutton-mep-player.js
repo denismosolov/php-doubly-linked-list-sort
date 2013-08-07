@@ -116,10 +116,6 @@
 				// add controls and stop
 				t.$media.attr('controls', 'controls');
 
-				// attempt to fix iOS 3 bug
-				t.$media.removeAttr('poster');
-                                // no Issue found on iOS3 -ttroxell
-
 				// override Apple's autoplay override for iPads
 				if (mf.isiPad && t.media.getAttribute('autoplay') !== null) {
 					t.media.load();
@@ -427,6 +423,7 @@
 				}, 50);
 
 				// adjust controls whenever window sizes (used to be in fullscreen only)
+				// @todo: Denis: prbably we dont need this too
 				t.globalBind('resize', function() {
 
 					// don't resize for fullscreen mode
