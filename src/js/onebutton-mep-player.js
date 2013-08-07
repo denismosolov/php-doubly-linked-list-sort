@@ -67,86 +67,7 @@
 		enableKeyboard: true,
 
 		// whenthis player starts, it will pause other players
-		pauseOtherPlayers: true,
-
-		// array of keyboard actions such as play pause
-		keyActions: [
-				{
-						keys: [
-								32, // SPACE
-								179 // GOOGLE play/pause button
-							  ],
-						action: function(player, media) {
-								if (media.paused || media.ended) {
-										media.play();
-								} else {
-										media.pause();
-								}
-						}
-				},
-				{
-						keys: [38], // UP
-						action: function(player, media) {
-								var newVolume = Math.min(media.volume + 0.1, 1);
-								media.setVolume(newVolume);
-						}
-				},
-				{
-						keys: [40], // DOWN
-						action: function(player, media) {
-								var newVolume = Math.max(media.volume - 0.1, 0);
-								media.setVolume(newVolume);
-						}
-				},
-				{
-						keys: [
-								37, // LEFT
-								227 // Google TV rewind
-						],
-						action: function(player, media) {
-								if (!isNaN(media.duration) && media.duration > 0) {
-										if (player.isVideo) {
-												player.showControls();
-												player.startControlsTimer();
-										}
-
-										// 5%
-										var newTime = Math.max(media.currentTime - player.options.defaultSeekBackwardInterval(media), 0);
-										media.setCurrentTime(newTime);
-								}
-						}
-				},
-				{
-						keys: [
-								39, // RIGHT
-								228 // Google TV forward
-						],
-						action: function(player, media) {
-								if (!isNaN(media.duration) && media.duration > 0) {
-										if (player.isVideo) {
-												player.showControls();
-												player.startControlsTimer();
-										}
-
-										// 5%
-										var newTime = Math.min(media.currentTime + player.options.defaultSeekForwardInterval(media), media.duration);
-										media.setCurrentTime(newTime);
-								}
-						}
-				},
-				{
-						keys: [70], // f
-						action: function(player, media) {
-								if (typeof player.enterFullScreen != 'undefined') {
-										if (player.isFullScreen) {
-												player.exitFullScreen();
-										} else {
-												player.enterFullScreen();
-										}
-								}
-						}
-				}
-		]
+		pauseOtherPlayers: true
 	};
 
 	mejs.mepIndex = 0;
@@ -497,7 +418,6 @@
 			if (!(mf.isAndroid && t.options.AndroidUseNativeControls) && !(mf.isiPad && t.options.iPadUseNativeControls) && !(mf.isiPhone && t.options.iPhoneUseNativeControls)) {
 
 				// two built in features
-				t.buildkeyboard(t, t.controls, t.layers, t.media);
 				t.buildoverlays(t, t.controls, t.layers, t.media);
 
 				// grab for use by features
@@ -947,41 +867,6 @@
 				error.show();
 				error.find('mejs-overlay-error').html("Error loading this resource");
 			}, false);
-		},
-
-		buildkeyboard: function(player, controls, layers, media) {
-
-				var t = this;
-
-				// listen for key presses
-				t.globalBind('keydown', function(e) {
-
-						if (player.hasFocus && player.options.enableKeyboard) {
-
-								// find a matching key
-								for (var i=0, il=player.options.keyActions.length; i<il; i++) {
-										var keyAction = player.options.keyActions[i];
-
-										for (var j=0, jl=keyAction.keys.length; j<jl; j++) {
-												if (e.keyCode == keyAction.keys[j]) {
-														e.preventDefault();
-														keyAction.action(player, media, e.keyCode);
-														return false;
-												}
-										}
-								}
-						}
-
-						return true;
-				});
-
-				// check if someone clicked outside a player region, then kill its focus
-				t.globalBind('click', function(event) {
-						if ($(event.target).closest('.mejs-container').length == 0) {
-								player.hasFocus = false;
-						}
-				});
-
 		},
 
 		findTracks: function() {
