@@ -1,7 +1,7 @@
 (function ($) {
 
 	// default player values
-	mejs.MepDefaults = {
+	mejs.OnebuttonMepDefaults = {
 		// default if the user doesn't specify
 		defaultAudioWidth: 400,
 		// default if the user doesn't specify
@@ -72,7 +72,7 @@
 		}
 
 		// extend default options
-		t.options = $.extend({},mejs.MepDefaults,o);
+		t.options = $.extend({},mejs.OnebuttonMepDefaults,o);
 
 		// unique ID
 		t.id = 'mep_' + mejs.mepIndex++;
