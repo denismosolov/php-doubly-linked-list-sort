@@ -416,9 +416,6 @@
 			t.domNode = domNode;
 
 			if (!(mf.isAndroid && t.options.AndroidUseNativeControls) && !(mf.isiPad && t.options.iPadUseNativeControls) && !(mf.isiPhone && t.options.iPhoneUseNativeControls)) {
-				// grab for use by features
-				//t.findTracks(); // @todo: probably no need for onebuttonplayer
-
 				// add user-defined features/controls
 				for (featureIndex in t.options.features) {
 					feature = t.options.features[featureIndex];
@@ -762,28 +759,7 @@
 			if (t.setCurrentRail)
 				t.setCurrentRail();
 		},
-/*
-		findTracks: function() {
-			var t = this,
-				tracktags = t.$media.find('track');
 
-			// store for use by plugins
-			t.tracks = [];
-			tracktags.each(function(index, track) {
-
-				track = $(track);
-
-				t.tracks.push({
-					srclang: (track.attr('srclang')) ? track.attr('srclang').toLowerCase() : '',
-					src: track.attr('src'),
-					kind: track.attr('kind'),
-					label: track.attr('label') || '',
-					entries: [],
-					isLoaded: false
-				});
-			});
-		},
-*/
 		changeSkin: function(className) {
 			this.container[0].className = 'mejs-container ' + className;
 			this.setPlayerSize(this.width, this.height);
