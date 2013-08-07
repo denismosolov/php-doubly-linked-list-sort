@@ -3,7 +3,7 @@
 	// default player values
 	mejs.OnebuttonMepDefaults = {
 		// default if the user doesn't specify
-		defaultAudioWidth: 400,
+		defaultAudioWidth: 30,
 		// default if the user doesn't specify
 		defaultAudioHeight: 30,
 
