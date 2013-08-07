@@ -36,9 +36,6 @@
 		// features to show
 		features: ['playpause'],
 
-		// turns keyboard support on and off for this instance
-		enableKeyboard: true,
-
 		// whenthis player starts, it will pause other players
 		pauseOtherPlayers: true
 	};
