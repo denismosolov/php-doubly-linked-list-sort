@@ -75,10 +75,10 @@
 	mejs.players = {};
 
 	// wraps a MediaElement object in player controls
-	mejs.MediaElementPlayer = function(node, o) {
+	mejs.OnebuttonMediaElementPlayer = function(node, o) {
 		// enforce object, even without "new" (via John Resig)
-		if ( !(this instanceof mejs.MediaElementPlayer) ) {
-			return new mejs.MediaElementPlayer(node, o);
+		if ( !(this instanceof mejs.OnebuttonMediaElementPlayer) ) {
+			return new mejs.OnebuttonMediaElementPlayer(node, o);
 		}
 
 		var t = this;
@@ -117,7 +117,7 @@
 	};
 
 	// actual player
-	mejs.MediaElementPlayer.prototype = {
+	mejs.OnebuttonMediaElementPlayer.prototype = {
 
 		hasFocus: false,
 
@@ -166,7 +166,7 @@
 
 			} else {
 
-				// DESKTOP: use MediaElementPlayer controls
+				// DESKTOP: use OnebuttonMediaElementPlayer controls
 
 				// remove native controls
 				t.$media.removeAttr('controls');
@@ -463,7 +463,7 @@
 
 						// create callback here since it needs access to current
 						// MediaElement object
-						mejs.MediaElementPlayer.prototype.clickToPlayPauseCallback = function() {
+						mejs.OnebuttonMediaElementPlayer.prototype.clickToPlayPauseCallback = function() {
 							console.log('media clicked', t.media, t.media.paused);
 
 							if (t.options.clickToPlayPause) {
@@ -858,14 +858,14 @@
 			return ret;
 		}
 
-		mejs.MediaElementPlayer.prototype.globalBind = function(events, data, callback) {
+		mejs.OnebuttonMediaElementPlayer.prototype.globalBind = function(events, data, callback) {
 			var t = this;
 			events = splitEvents(events, t.id);
 			if (events.d) $(document).bind(events.d, data, callback);
 			if (events.w) $(window).bind(events.w, data, callback);
 		};
 
-		mejs.MediaElementPlayer.prototype.globalUnbind = function(events, callback) {
+		mejs.OnebuttonMediaElementPlayer.prototype.globalUnbind = function(events, callback) {
 			var t = this;
 			events = splitEvents(events, t.id);
 			if (events.d) $(document).unbind(events.d, callback);
@@ -875,19 +875,19 @@
 
 	// turn into jQuery plugin
 	if (typeof jQuery != 'undefined') {
-		jQuery.fn.mediaelementplayer = function (options) {
+		jQuery.fn.onebuttonmediaelementplayer = function (options) {
 			if (options === false) {
 				this.each(function () {
-					var player = jQuery(this).data('mediaelementplayer');
+					var player = jQuery(this).data('onebuttonmediaelementplayer');
 					if (player) {
 						player.remove();
 					}
-					jQuery(this).removeData('mediaelementplayer');
+					jQuery(this).removeData('onebuttonmediaelementplayer');
 				});
 			}
 			else {
 				this.each(function () {
-					jQuery(this).data('mediaelementplayer', new mejs.MediaElementPlayer(this, options));
+					jQuery(this).data('onebuttonmediaelementplayer', new mejs.OnebuttonMediaElementPlayer(this, options));
 				});
 			}
 			return this;
@@ -896,10 +896,10 @@
 
 	$(document).ready(function() {
 		// auto enable using JSON attribute
-		$('.mejs-player').mediaelementplayer();
+		$('.mejs-player').onebuttonmediaelementplayer();
 	});
 
 	// push out to window
-	window.MediaElementPlayer = mejs.MediaElementPlayer;
+	window.OnebuttonMediaElementPlayer = mejs.OnebuttonMediaElementPlayer;
 
 })(mejs.$);

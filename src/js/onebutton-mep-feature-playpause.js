@@ -5,7 +5,7 @@
 	});
 
 	// PLAY/pause BUTTON
-	$.extend(MediaElementPlayer.prototype, {
+	$.extend(OnebuttonMediaElementPlayer.prototype, {
 		buildplaypause: function(player, controls, layers, media) {
 			var 
 				t = this,
