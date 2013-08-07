@@ -437,7 +437,7 @@
 				// reset all layers and controls
 				t.setPlayerSize(t.width, t.height);
 				t.setControlsSize();
-
+/* @todo: remove cause related with video only
 
 				// controls fade
 				if (t.isVideo) {
@@ -532,7 +532,7 @@
 						}, false);
 					}
 				}
-
+*/
 				// EVENTS
 
 				// FOCUS: when a video starts playing, it takes focus from other players (possibily pausing them)
