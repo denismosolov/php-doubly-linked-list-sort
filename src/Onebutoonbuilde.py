@@ -2,37 +2,37 @@ import sys
 import os
 import shutil
 
-me_filename = 'mediaelement'
-mep_filename = 'mediaelementplayer'
+#me_filename = 'mediaelement'
+#mep_filename = 'mediaelementplayer'
 onebutton_me_filename = 'onebutton-mediaelement'
 onebutton_mep_filename = 'onebutton-mediaelementplayer'
-combined_filename = 'mediaelement-and-player'
+#combined_filename = 'mediaelement-and-player'
 onebutton_combined_filename = 'mediaelement-and-onebuttonplayer'
 
 # BUILD MediaElement (single file)
 
-print('building MediaElement.js')
-me_files = []
-me_files.append('me-header.js')
-me_files.append('me-namespace.js')
-me_files.append('me-utility.js')
-me_files.append('me-plugindetector.js')
-me_files.append('me-featuredetection.js')
-me_files.append('me-mediaelements.js')
-me_files.append('me-shim.js')
-me_files.append('me-i18n.js')
-me_files.append('me-i18n-locale-de.js')
-me_files.append('me-i18n-locale-zh.js')
+#print('building MediaElement.js')
+#me_files = []
+#me_files.append('me-header.js')
+#me_files.append('me-namespace.js')
+#me_files.append('me-utility.js')
+#me_files.append('me-plugindetector.js')
+#me_files.append('me-featuredetection.js')
+#me_files.append('me-mediaelements.js')
+#me_files.append('me-shim.js')
+#me_files.append('me-i18n.js')
+#me_files.append('me-i18n-locale-de.js')
+#me_files.append('me-i18n-locale-zh.js')
 
-code = ''
+#code = ''
 
-for item in me_files:
-	src_file = open('js/' + item,'r')
-	code += src_file.read() + "\n"
+#for item in me_files:
+#	src_file = open('js/' + item,'r')
+#	code += src_file.read() + "\n"
 
-tmp_file = open('../build/' + me_filename + '.js','w')
-tmp_file.write(code)
-tmp_file.close()
+#tmp_file = open('../build/' + me_filename + '.js','w')
+#tmp_file.write(code)
+#tmp_file.close()
 
 print('building OnebuttonMediaElement.js')
 onebutton_me_files = []
@@ -59,22 +59,22 @@ tmp_file.write(code)
 tmp_file.close()
 
 # BUILD MediaElementPlayer (single file)
-print('building MediaElementPlayer.js')
-mep_files = []
-mep_files.append('mep-header.js')
-mep_files.append('mep-library.js')
-mep_files.append('mep-player.js')
-mep_files.append('mep-feature-playpause.js')
+#print('building MediaElementPlayer.js')
+#mep_files = []
+#mep_files.append('mep-header.js')
+#mep_files.append('mep-library.js')
+#mep_files.append('mep-player.js')
+#mep_files.append('mep-feature-playpause.js')
 
-code = ''
+#code = ''
 
-for item in mep_files:
-        src_file = open('js/' + item,'r')
-        code += src_file.read() + "\n"
+#for item in mep_files:
+#        src_file = open('js/' + item,'r')
+#        code += src_file.read() + "\n"
 
-tmp_file = open('../build/' + mep_filename + '.js','w')
-tmp_file.write(code)
-tmp_file.close()
+#tmp_file = open('../build/' + mep_filename + '.js','w')
+#tmp_file.write(code)
+#tmp_file.close()
 
 # BUILD MediaElementPlayer (single file)
 print('building OnebuttonMediaElementPlayer.js')
@@ -99,8 +99,8 @@ tmp_file.close()
 print('Minifying JavaScript')
 # os.system("java -jar yuicompressor-2.4.2.jar ../build/" + me_filename + ".js -o ../build/" + me_filename + ".min.js --charset utf-8 -v")
 # os.system("java -jar yuicompressor-2.4.2.jar ../build/" + mep_filename + ".js -o ../build/" + mep_filename + ".min.js --charset utf-8 -v")
-os.system("java -jar compiler.jar --js ../build/" + me_filename + ".js --js_output_file ../build/" + me_filename + ".min.js")
-os.system("java -jar compiler.jar --js ../build/" + mep_filename + ".js --js_output_file ../build/" + mep_filename + ".min.js")
+#os.system("java -jar compiler.jar --js ../build/" + me_filename + ".js --js_output_file ../build/" + me_filename + ".min.js")
+#os.system("java -jar compiler.jar --js ../build/" + mep_filename + ".js --js_output_file ../build/" + mep_filename + ".min.js")
 os.system("java -jar compiler.jar --js ../build/" + onebutton_me_filename + ".js --js_output_file ../build/" + onebutton_me_filename + ".min.js")
 os.system("java -jar compiler.jar --js ../build/" + onebutton_mep_filename + ".js --js_output_file ../build/" + onebutton_mep_filename + ".min.js")
 
@@ -125,22 +125,23 @@ def addHeader(headerFilename, filename):
 	tmp_file.write(file_txt)
 	tmp_file.close()
 
-addHeader('js/me-header.js', '../build/' + me_filename + '.min.js')
-addHeader('js/mep-header.js', '../build/' + mep_filename + '.min.js')
+#addHeader('js/me-header.js', '../build/' + me_filename + '.min.js')
+#addHeader('js/mep-header.js', '../build/' + mep_filename + '.min.js')
 
 
 # COMBINE into single script
-print('Combining scripts')
+#print('Combining scripts')
+#code = ''
+#src_file = open('../build/' + me_filename + '.js','r')
+#code += src_file.read() + "\n"
+#src_file = open('../build/' + mep_filename + '.js','r')
+#code += src_file.read() + "\n"
+
+#tmp_file = open('../build/' + combined_filename + '.js','w')
+#tmp_file.write(code)
+#tmp_file.close()
+
 code = ''
-src_file = open('../build/' + me_filename + '.js','r')
-code += src_file.read() + "\n"
-src_file = open('../build/' + mep_filename + '.js','r')
-code += src_file.read() + "\n"
-
-tmp_file = open('../build/' + combined_filename + '.js','w')
-tmp_file.write(code)
-tmp_file.close()
-
 src_file = open('../build/' + onebutton_me_filename + '.js','r')
 code += src_file.read() + "\n"
 src_file = open('../build/' + onebutton_mep_filename + '.js','r')
@@ -150,15 +151,15 @@ tmp_file = open('../build/' + onebutton_combined_filename + '.js','w')
 tmp_file.write(code)
 tmp_file.close()
 
-code = ''
-src_file = open('../build/' + me_filename + '.min.js','r')
-code += src_file.read() + "\n"
-src_file = open('../build/' + mep_filename + '.min.js','r')
-code += src_file.read() + "\n"
+#code = ''
+#src_file = open('../build/' + me_filename + '.min.js','r')
+#code += src_file.read() + "\n"
+#src_file = open('../build/' + mep_filename + '.min.js','r')
+#code += src_file.read() + "\n"
 
-tmp_file = open('../build/' + combined_filename + '.min.js','w')
-tmp_file.write(code)
-tmp_file.close()
+#tmp_file = open('../build/' + combined_filename + '.min.js','w')
+#tmp_file.write(code)
+#tmp_file.close()
 
 code = ''
 src_file = open('../build/' + onebutton_me_filename + '.min.js','r')
