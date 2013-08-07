@@ -2,14 +2,6 @@
 
 	// default player values
 	mejs.MepDefaults = {
-		// default if the <video width> is not specified
-		defaultVideoWidth: 480,
-		// default if the <video height> is not specified
-		defaultVideoHeight: 270,
-		// if set, overrides <video width>
-		videoWidth: -1,
-		// if set, overrides <video height>
-		videoHeight: -1,
 		// default if the user doesn't specify
 		defaultAudioWidth: 400,
 		// default if the user doesn't specify
@@ -60,8 +52,6 @@
 		AndroidUseNativeControls: false,
 		// features to show
 		features: ['playpause'],
-		// only for dynamic
-		isVideo: true,
 
 		// turns keyboard support on and off for this instance
 		enableKeyboard: true,
@@ -137,13 +127,6 @@
 
 			t.isDynamic = (tagName !== 'audio' && tagName !== 'video');
 
-			if (t.isDynamic) {
-				// get video from src or href?
-				t.isVideo = t.options.isVideo;
-			} else {
-				t.isVideo = (tagName !== 'audio' && t.options.isVideo);
-			}
-
 			// use native controls in iPad, iPhone, and Android
 			if ((mf.isiPad && t.options.iPadUseNativeControls) || (mf.isiPhone && t.options.iPhoneUseNativeControls)) {
 
@@ -190,7 +173,7 @@
 					(mf.isiOS ? 'mejs-ios ' : '') +
 					(mf.isiPad ? 'mejs-ipad ' : '') +
 					(mf.isiPhone ? 'mejs-iphone ' : '') +
-					(t.isVideo ? 'mejs-video ' : 'mejs-audio ')
+					'mejs-audio '
 				);
 
 
@@ -224,29 +207,25 @@
 					(3) width attribute,
 					(4) defaultVideoWidth (for unspecified cases)
 				*/
-
-				var tagType = (t.isVideo ? 'video' : 'audio'),
-					capsTagName = tagType.substring(0,1).toUpperCase() + tagType.substring(1);
-
-
-				if (t.options[tagType + 'Width'] > 0 || t.options[tagType + 'Width'].toString().indexOf('%') > -1) {
-					t.width = t.options[tagType + 'Width'];
+				// @todo: Denis: should check it againe and simplify. Probably we dont need a lot of methods to determine size
+				if (t.options.audioWidth > 0 || t.options.audioWidth.toString().indexOf('%') > -1) {
+					t.width = t.options.audioWidth;
 				} else if (t.media.style.width !== '' && t.media.style.width !== null) {
 					t.width = t.media.style.width;
 				} else if (t.media.getAttribute('width') !== null) {
 					t.width = t.$media.attr('width');
 				} else {
-					t.width = t.options['default' + capsTagName + 'Width'];
+					t.width = t.options.defaultAudioWidth;
 				}
 
-				if (t.options[tagType + 'Height'] > 0 || t.options[tagType + 'Height'].toString().indexOf('%') > -1) {
-					t.height = t.options[tagType + 'Height'];
+				if (t.options.audioHeight > 0 || t.options.audioHeight.toString().indexOf('%') > -1) {
+					t.height = t.options.audioHeight;
 				} else if (t.media.style.height !== '' && t.media.style.height !== null) {
 					t.height = t.media.style.height;
 				} else if (t.$media[0].getAttribute('height') !== null) {
 					t.height = t.$media.attr('height');
 				} else {
-					t.height = t.options['default' + capsTagName + 'Height'];
+					t.height = t.options.defaultAudioHeight;
 				}
 
 				// set the size, while we wait for the plugins to load below
@@ -660,10 +639,10 @@
 
 				// do we have the native dimensions yet?
 				var
-					nativeWidth = t.isVideo ? ((t.media.videoWidth && t.media.videoWidth > 0) ? t.media.videoWidth : t.options.defaultVideoWidth) : t.options.defaultAudioWidth,
-					nativeHeight = t.isVideo ? ((t.media.videoHeight && t.media.videoHeight > 0) ? t.media.videoHeight : t.options.defaultVideoHeight) : t.options.defaultAudioHeight,
+					nativeWidth = t.options.defaultAudioWidth,
+					nativeHeight = t.options.defaultAudioHeight,
 					parentWidth = t.container.parent().closest(':visible').width(),
-					newHeight = t.isVideo || !t.options.autosizeProgress ? parseInt(parentWidth * nativeHeight/nativeWidth, 10) : nativeHeight;
+					newHeight = !t.options.autosizeProgress ? parseInt(parentWidth * nativeHeight/nativeWidth, 10) : nativeHeight;
 
 				if (t.container.parent()[0].tagName.toLowerCase() === 'body') { // && t.container.siblings().count == 0) {
 					parentWidth = $(window).width();
@@ -680,13 +659,6 @@
 					t.$media.add(t.container.find('.mejs-shim'))
 						.width('100%')
 						.height('100%');
-
-					// if shim is ready, send the size to the embeded plugin
-					if (t.isVideo) {
-						if (t.media.setVideoSize) {
-							t.media.setVideoSize(parentWidth, newHeight);
-						}
-					}
 
 					// set the layers
 					t.layers.children('.mejs-layer')
