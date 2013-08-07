@@ -1,10 +1,11 @@
 # silverlight stuff
 src/silverlight/obj/*
 src/silverlight/Bin/*
-build/AppManifest.xaml
-build/SilverlightMediaElementTestPage.html
-build/SilverlightMediaElement.pdb
-build/SilverlightMediaElement.dll
+#build/AppManifest.xaml
+#build/SilverlightMediaElementTestPage.html
+#build/SilverlightMediaElement.pdb
+#build/SilverlightMediaElement.dll
+build/*
 tests/*
 newfeatures/*
 /mejs3/
