@@ -61,7 +61,6 @@ onebutton_mep_files.append('onebutton-mep-header.js')
 onebutton_mep_files.append('onebutton-mep-library.js')
 onebutton_mep_files.append('onebutton-mep-player.js')
 onebutton_mep_files.append('onebutton-mep-feature-playpause.js')
-onebutton_mep_files.append('onebutton-mep-feature-stop.js')
 
 code = ''
 
