@@ -2,8 +2,6 @@
 
 	// default player values
 	mejs.MepDefaults = {
-		// url to poster (to fix iOS 3.x)
-		poster: '',
 		// default if the <video width> is not specified
 		defaultVideoWidth: 480,
 		// default if the <video height> is not specified
@@ -232,7 +230,7 @@
 				t.$media.attr('controls', 'controls');
 
 				// attempt to fix iOS 3 bug
-				//t.$media.removeAttr('poster');
+				t.$media.removeAttr('poster');
                                 // no Issue found on iOS3 -ttroxell
 
 				// override Apple's autoplay override for iPads
@@ -499,7 +497,6 @@
 			if (!(mf.isAndroid && t.options.AndroidUseNativeControls) && !(mf.isiPad && t.options.iPadUseNativeControls) && !(mf.isiPhone && t.options.iPhoneUseNativeControls)) {
 
 				// two built in features
-				t.buildposter(t, t.controls, t.layers, t.media);
 				t.buildkeyboard(t, t.controls, t.layers, t.media);
 				t.buildoverlays(t, t.controls, t.layers, t.media);
 
@@ -848,45 +845,6 @@
 				t.setProgressRail();
 			if (t.setCurrentRail)
 				t.setCurrentRail();
-		},
-
-
-		buildposter: function(player, controls, layers, media) {
-			var t = this,
-				poster =
-				$('<div class="mejs-poster mejs-layer">' +
-				'</div>')
-					.appendTo(layers),
-				posterUrl = player.$media.attr('poster');
-
-			// prioriy goes to option (this is useful if you need to support iOS 3.x (iOS completely fails with poster)
-			if (player.options.poster !== '') {
-				posterUrl = player.options.poster;
-			}
-
-			// second, try the real poster
-			if (posterUrl !== '' && posterUrl != null) {
-				t.setPoster(posterUrl);
-			} else {
-				poster.hide();
-			}
-
-			media.addEventListener('play',function() {
-				poster.hide();
-			}, false);
-		},
-
-		setPoster: function(url) {
-			var t = this,
-				posterDiv = t.container.find('.mejs-poster'),
-				posterImg = posterDiv.find('img');
-
-			if (posterImg.length == 0) {
-				posterImg = $('<img width="100%" height="100%" />').appendTo(posterDiv);
-			}
-
-			posterImg.attr('src', url);
-			posterDiv.css({'background-image' : 'url(' + url + ')'});
 		},
 
 		buildoverlays: function(player, controls, layers, media) {
