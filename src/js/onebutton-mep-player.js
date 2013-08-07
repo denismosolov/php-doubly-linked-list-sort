@@ -27,8 +27,6 @@
 		// rewind to beginning when media ends
                 autoRewind: true,
 
-		// automatically calculate the width of the progress bar based on the sizes of other elements
-		autosizeProgress : true,
 		// Hide controls when playing and mouse is not over the video
 		alwaysShowControls: false,
 		// Display the video control
@@ -541,7 +539,7 @@
 					nativeWidth = t.options.defaultAudioWidth,
 					nativeHeight = t.options.defaultAudioHeight,
 					parentWidth = t.container.parent().closest(':visible').width(),
-					newHeight = !t.options.autosizeProgress ? parseInt(parentWidth * nativeHeight/nativeWidth, 10) : nativeHeight;
+					newHeight = nativeHeight;
 
 				if (t.container.parent()[0].tagName.toLowerCase() === 'body') { // && t.container.siblings().count == 0) {
 					parentWidth = $(window).width();
