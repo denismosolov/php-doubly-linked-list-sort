@@ -43,6 +43,10 @@ onebutton_me_files.append('onebutton-me-plugindetector.js')
 onebutton_me_files.append('onebutton-me-featuredetection.js')
 onebutton_me_files.append('onebutton-me-mediaelements.js')
 onebutton_me_files.append('onebutton-me-shim.js')
+onebutton_me_files.append('onebutton-me-i18n.js')
+onebutton_me_files.append('onebutton-me-i18n-locale-de.js')
+onebutton_me_files.append('onebutton-me-i18n-locale-zh.js')
+
 
 code = ''
 
