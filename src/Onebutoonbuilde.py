@@ -55,6 +55,24 @@ tmp_file.write(code)
 tmp_file.close()
 
 # BUILD MediaElementPlayer (single file)
+print('building MediaElementPlayer.js')
+mep_files = []
+mep_files.append('mep-header.js')
+mep_files.append('mep-library.js')
+mep_files.append('mep-player.js')
+mep_files.append('mep-feature-playpause.js')
+
+code = ''
+
+for item in mep_files:
+        src_file = open('js/' + item,'r')
+        code += src_file.read() + "\n"
+
+tmp_file = open('../build/' + mep_filename + '.js','w')
+tmp_file.write(code)
+tmp_file.close()
+
+# BUILD MediaElementPlayer (single file)
 print('building OnebuttonMediaElementPlayer.js')
 onebutton_mep_files = []
 onebutton_mep_files.append('onebutton-mep-header.js')
