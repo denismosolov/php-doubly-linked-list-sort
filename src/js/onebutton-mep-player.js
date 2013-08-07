@@ -214,7 +214,7 @@
 
 				// find parts
 				t.controls = t.container.find('.mejs-controls');
-				t.layers = t.container.find('.mejs-layers');
+				t.layers = t.container.find('.mejs-layers'); // @todo: Denis: probably should remove layer
 
 				// determine the size
 
@@ -717,43 +717,7 @@
 		},
 
 		setControlsSize: function() {
-			var t = this,
-				usedWidth = 0,
-				railWidth = 0,
-				rail = t.controls.find('.mejs-time-rail'),
-				total = t.controls.find('.mejs-time-total'),
-				current = t.controls.find('.mejs-time-current'),
-				loaded = t.controls.find('.mejs-time-loaded'),
-				others = rail.siblings();
-
-
-			// allow the size to come from custom CSS
-			if (t.options && !t.options.autosizeProgress) {
-				// Also, frontends devs can be more flexible
-				// due the opportunity of absolute positioning.
-				railWidth = parseInt(rail.css('width'));
-			}
-
-			// attempt to autosize
-			if (railWidth === 0 || !railWidth) {
-
-				// find the size of all the other controls besides the rail
-				others.each(function() {
-					var $this = $(this);
-					if ($this.css('position') != 'absolute' && $this.is(':visible')) {
-						usedWidth += $(this).outerWidth(true);
-					}
-				});
-
-				// fit the rail into the remaining space
-				railWidth = t.controls.width() - usedWidth - (rail.outerWidth(true) - rail.width());
-			}
-
-			// outer area
-			rail.width(railWidth);
-			// dark space
-			total.width(railWidth - (total.outerWidth(true) - total.width()));
-
+			var t = this;
 			if (t.setProgressRail)
 				t.setProgressRail();
 			if (t.setCurrentRail)
