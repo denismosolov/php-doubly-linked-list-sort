@@ -228,7 +228,7 @@
 			}
 		},
 
-		showControls: function(doAnimation) {
+		showControls: function() {
 			var t = this;
 
 			if (t.controlsAreVisible)
@@ -250,7 +250,7 @@
 
 		},
 
-		hideControls: function(doAnimation) {
+		hideControls: function() {
 			var t = this;
 
 			if (!t.controlsAreVisible)
@@ -304,14 +304,14 @@
 			var t= this;
 
 			t.killControlsTimer();
-			t.hideControls(false);
+			t.hideControls();
 			this.controlsEnabled = false;
 		},
 
 		enableControls: function() {
 			var t= this;
 
-			t.showControls(false);
+			t.showControls();
 
 			t.controlsEnabled = true;
 		},
