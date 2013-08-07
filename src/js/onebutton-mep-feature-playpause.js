@@ -6,7 +6,7 @@
 
 	// PLAY/pause BUTTON
 	$.extend(OnebuttonMediaElementPlayer.prototype, {
-		buildplaypause: function(player, controls, layers, media) {
+		buildplaypause: function(player, controls, /*layers,*/ media) {
 			var 
 				t = this,
 				play = 

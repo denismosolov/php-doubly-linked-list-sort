@@ -129,7 +129,6 @@
 					$('<div id="' + t.id + '" class="mejs-container ' + (mejs.MediaFeatures.svg ? 'svg' : 'no-svg') + '">'+
 						'<div class="mejs-inner">'+
 							'<div class="mejs-mediaelement"></div>'+
-							'<div class="mejs-layers"></div>'+
 							'<div class="mejs-controls"></div>'+
 							'<div class="mejs-clear"></div>'+
 						'</div>' +
@@ -167,7 +166,6 @@
 
 				// find parts
 				t.controls = t.container.find('.mejs-controls');
-				t.layers = t.container.find('.mejs-layers'); // @todo: Denis: probably should remove layer
 
 				// determine the size
 
@@ -331,7 +329,7 @@
 					feature = t.options.features[featureIndex];
 					if (t['build' + feature]) {
 						try {
-							t['build' + feature](t, t.controls, t.layers, t.media);
+							t['build' + feature](t, t.controls, /*t.layers,*/ t.media);
 						} catch (e) {
 							// TODO: report control error
 							//throw e;
@@ -497,10 +495,6 @@
 						.width('100%')
 						.height('100%');
 
-					// set the layers
-					t.layers.children('.mejs-layer')
-						.width('100%')
-						.height('100%');
 				}
 
 
@@ -509,20 +503,7 @@
 				t.container
 					.width(t.width)
 					.height(t.height);
-
-				t.layers.children('.mejs-layer')
-					.width(t.width)
-					.height(t.height);
-
 			}
-
-			// special case for big play button so it doesn't go over the controls area
-			var playLayer = t.layers.find('.mejs-overlay-play'),
-				playButton = playLayer.find('.mejs-overlay-button');
-
-			playLayer.height(t.container.height() - t.controls.height());
-			playButton.css('margin-top', '-' + (playButton.height()/2 - t.controls.height()/2).toString() + 'px'  );
-
 		},
 
 		setControlsSize: function() {
