@@ -416,10 +416,6 @@
 			t.domNode = domNode;
 
 			if (!(mf.isAndroid && t.options.AndroidUseNativeControls) && !(mf.isiPad && t.options.iPadUseNativeControls) && !(mf.isiPhone && t.options.iPhoneUseNativeControls)) {
-
-				// two built in features
-				t.buildoverlays(t, t.controls, t.layers, t.media);
-
 				// grab for use by features
 				t.findTracks();
 
@@ -765,108 +761,6 @@
 				t.setProgressRail();
 			if (t.setCurrentRail)
 				t.setCurrentRail();
-		},
-
-		buildoverlays: function(player, controls, layers, media) {
-            var t = this;
-			if (!player.isVideo)
-				return;
-
-			var
-			loading =
-				$('<div class="mejs-overlay mejs-layer">'+
-					'<div class="mejs-overlay-loading"><span></span></div>'+
-				'</div>')
-				.hide() // start out hidden
-				.appendTo(layers),
-			error =
-				$('<div class="mejs-overlay mejs-layer">'+
-					'<div class="mejs-overlay-error"></div>'+
-				'</div>')
-				.hide() // start out hidden
-				.appendTo(layers),
-			// this needs to come last so it's on top
-			bigPlay =
-				$('<div class="mejs-overlay mejs-layer mejs-overlay-play">'+
-					'<div class="mejs-overlay-button"></div>'+
-				'</div>')
-				.appendTo(layers)
-				.click(function() {
-                    if (t.options.clickToPlayPause) {
-                        if (media.paused) {
-                            media.play();
-                        } else {
-                            media.pause();
-                        }
-                    }
-				});
-
-			/*
-			if (mejs.MediaFeatures.isiOS || mejs.MediaFeatures.isAndroid) {
-				bigPlay.remove();
-				loading.remove();
-			}
-			*/
-
-
-			// show/hide big play button
-			media.addEventListener('play',function() {
-				bigPlay.hide();
-				loading.hide();
-				controls.find('.mejs-time-buffering').hide();
-				error.hide();
-			}, false);
-
-			media.addEventListener('playing', function() {
-				bigPlay.hide();
-				loading.hide();
-				controls.find('.mejs-time-buffering').hide();
-				error.hide();
-			}, false);
-
-			media.addEventListener('seeking', function() {
-				loading.show();
-				controls.find('.mejs-time-buffering').show();
-			}, false);
-
-			media.addEventListener('seeked', function() {
-				loading.hide();
-				controls.find('.mejs-time-buffering').hide();
-			}, false);
-
-			media.addEventListener('pause',function() {
-				if (!mejs.MediaFeatures.isiPhone) {
-					bigPlay.show();
-				}
-			}, false);
-
-			media.addEventListener('waiting', function() {
-				loading.show();
-				controls.find('.mejs-time-buffering').show();
-			}, false);
-
-
-			// show/hide loading
-			media.addEventListener('loadeddata',function() {
-				// for some reason Chrome is firing this event
-				//if (mejs.MediaFeatures.isChrome && media.getAttribute && media.getAttribute('preload') === 'none')
-				//	return;
-
-				loading.show();
-				controls.find('.mejs-time-buffering').show();
-			}, false);
-			media.addEventListener('canplay',function() {
-				loading.hide();
-				controls.find('.mejs-time-buffering').hide();
-			}, false);
-
-			// error handling
-			media.addEventListener('error',function() {
-				loading.hide();
-				controls.find('.mejs-time-buffering').hide();
-				error.show();
-				error.find('mejs-overlay-error').html("Error loading this resource");
-			}, false);
 		},
 
 		findTracks: function() {
