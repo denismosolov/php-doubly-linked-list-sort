@@ -417,6 +417,7 @@
 
 			if (!(mf.isAndroid && t.options.AndroidUseNativeControls) && !(mf.isiPad && t.options.iPadUseNativeControls) && !(mf.isiPhone && t.options.iPhoneUseNativeControls)) {
 				// add user-defined features/controls
+				/*
 				for (featureIndex in t.options.features) {
 					feature = t.options.features[featureIndex];
 					if (t['build' + feature]) {
@@ -430,7 +431,7 @@
 						}
 					}
 				}
-
+				*/
 				t.container.trigger('controlsready');
 
 				// reset all layers and controls
