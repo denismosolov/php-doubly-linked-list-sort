@@ -26,15 +26,6 @@
 		loop: false,
 		// rewind to beginning when media ends
                 autoRewind: true,
-		// resize to media dimensions
-		enableAutosize: true,
-		// forces the hour marker (##:00:00)
-		alwaysShowHours: false,
-
-		// show framecount in timecode (##:00:00:00)
-		showTimecodeFrameCount: false,
-		// used when showTimecodeFrameCount is set to true
-		framesPerSecond: 25,
 
 		// automatically calculate the width of the progress bar based on the sizes of other elements
 		autosizeProgress : true,
