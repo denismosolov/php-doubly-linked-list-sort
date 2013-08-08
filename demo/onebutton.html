@@ -15,11 +15,20 @@
 <p>Audio player</p>
 
 <h2>MP3</h2>
-<audio src="http://www.japanesepod101.com/learningcenter/audio/transcript_2231/3.mp3" type="audio/mp3" controls="controls">		
-</audio>	
+
+<audio id="player_default" src="http://www.japanesepod101.com/learningcenter/audio/transcript_2231/3.mp3" type="audio/mp3" controls="controls"></audio>
+
+<div class="mejs-container">
+	<div class="mejs-inner">
+		<div class="mejs-mediaelement"><audio width="30" height="30" src="http://www.japanesepod101.com/learningcenter/audio/transcript_2231/3.mp3" preload="none" class="mejs-onebuttonplayer" /></div>
+		<div class="mejs-controls"></div>
+		<div class="mejs-clear"></div>
+	</div>
+</div>
 
 <script>
-$('audio').onebuttonmediaelementplayer();
+$('#player_default').onebuttonmediaelementplayer();
+$('.mejs-onebuttonplayer').onebuttonmediaelementplayer({preparedPlayer: true});
 </script>
 
 </body>
