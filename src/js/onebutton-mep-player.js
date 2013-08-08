@@ -39,37 +39,45 @@
 	mejs.onebuttonplayers = mejs.onebuttonplayers || {};
 
 	// wraps a MediaElement object in player controls
-	mejs.OnebuttonMediaElementPlayer = function(node, o) {
+	mejs.OnebuttonMediaElementPlayer = function(container, o) {
 		// enforce object, even without "new" (via John Resig)
 		if ( !(this instanceof mejs.OnebuttonMediaElementPlayer) ) {
-			return new mejs.OnebuttonMediaElementPlayer(node, o);
+			return new mejs.OnebuttonMediaElementPlayer(container, o);
 		}
 
 		var t = this;
 
-		// these will be reset after the MediaElement.success fires
-		t.$media = t.$node = $(node);
-		t.node = t.media = t.$media[0];
+		t.$container = $(container);
 
-		// check for existing player
-		if (typeof t.node.player != 'undefined') {
-			return t.node.player;
-		} else {
-			// attach player to DOM node for reference
-			t.node.player = t;
-		}
+		t.$container.one('click', function(){
+			// create <audio> on first click, then init the player
+			var audioHTML = $('<audio src="'+t.$container.data('url')+'" autoplay></audio>').appendTo(t.$container),
+				node = audioHTML.get(0);
 
-		// extend default options
-		t.options = $.extend({},mejs.OnebuttonMepDefaults,o);
+			// these will be reset after the MediaElement.success fires
+			t.$media = t.$node = $(node);
+			t.node = t.media = t.$media[0];
 
-		// unique ID
-		t.id = 'mep_' + mejs.mepIndex++;
+			// check for existing player
+			if (typeof t.node.player != 'undefined') {
+				return t.node.player;
+			} else {
+				// attach player to DOM node for reference
+				t.node.player = t;
+			}
 
-		// add to player array (for focus events)
-		mejs.onebuttonplayers[t.id] = t;
+			// extend default options
+			t.options = $.extend({},mejs.OnebuttonMepDefaults,o);
 
-		// start up
-		t.init();
+			// unique ID
+			t.id = 'mep_' + mejs.mepIndex++;
+
+			// add to player array (for focus events)
+			mejs.onebuttonplayers[t.id] = t;
+
+			// start up
+			t.init();
+		});
 
 		return t;
 	};
