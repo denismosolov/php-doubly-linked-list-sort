@@ -10,7 +10,7 @@
 			var 
 				t = this,
 				play = 
-				$('<div class="mejs-button onebutton-loading" >' +
+				$('<div class="mejs-button mejs-playpause-button mejs-play onebutton-loading" >' +
 					'<button type="button" aria-controls="' + t.id + '" title="' + t.options.playpauseText + '" aria-label="' + t.options.playpauseText + '"></button>' +
 				'</div>')
 				.appendTo(controls)
