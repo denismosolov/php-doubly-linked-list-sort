@@ -34,9 +34,9 @@
 		preparedPlayer: false
 	};
 
-	mejs.mepIndex = 0;
+	mejs.mepIndex = mejs.mepIndex || 0;
 
-	mejs.players = {};
+	mejs.onebuttonplayers = mejs.onebuttonplayers || {};
 
 	// wraps a MediaElement object in player controls
 	mejs.OnebuttonMediaElementPlayer = function(node, o) {
@@ -72,7 +72,7 @@
 		t.id = 'mep_' + mejs.mepIndex++;
 
 		// add to player array (for focus events)
-		mejs.players[t.id] = t;
+		mejs.onebuttonplayers[t.id] = t;
 
 		// start up
 		t.init();
@@ -360,8 +360,8 @@
 					var playerIndex;
 
 					// go through all other players
-					for (playerIndex in mejs.players) {
-						var p = mejs.players[playerIndex];
+					for (playerIndex in mejs.onebuttonplayers) {
+						var p = mejs.onebuttonplayers[playerIndex];
 						if (p.id != t.id && t.options.pauseOtherPlayers && !p.paused && !p.ended) {
 							p.pause();
 						}
@@ -590,8 +590,8 @@
 				/*else*/ t.$node.insertBefore(t.container)
 			}
 
-			// Remove the player from the mejs.players object so that pauseOtherPlayers doesn't blow up when trying to pause a non existance flash api.
-			delete mejs.players[t.id];
+			// Remove the player from the mejs.onebuttonplayers object so that pauseOtherPlayers doesn't blow up when trying to pause a non existance flash api.
+			delete mejs.onebuttonplayers[t.id];
 
 			t.container.remove();
 			t.globalUnbind();
