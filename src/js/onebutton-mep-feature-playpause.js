@@ -10,7 +10,7 @@
 			var 
 				t = this,
 				play = 
-				$('<div class="mejs-button mejs-playpause-button mejs-play" >' +
+				$('<div class="mejs-button onebutton-loading" >' +
 					'<button type="button" aria-controls="' + t.id + '" title="' + t.options.playpauseText + '" aria-label="' + t.options.playpauseText + '"></button>' +
 				'</div>')
 				.appendTo(controls)
@@ -25,6 +25,10 @@
 					
 					return false;
 				});
+			
+			media.addEventListener('canplay', function(){
+				play.removeClass('onebutton-loading');
+			}, false);
 
 			media.addEventListener('play',function() {
 				play.removeClass('mejs-play').addClass('mejs-pause');
@@ -32,7 +36,6 @@
 			media.addEventListener('playing',function() {
 				play.removeClass('mejs-play').addClass('mejs-pause');
 			}, false);
-
 
 			media.addEventListener('pause',function() {
 				play.removeClass('mejs-pause').addClass('mejs-play');
