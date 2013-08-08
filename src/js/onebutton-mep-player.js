@@ -28,10 +28,7 @@
 		features: ['playpause'],
 
 		// whenthis player starts, it will pause other players
-		pauseOtherPlayers: true,
-
-		// this means that <audio> tag already in mejs-wrapper, so no need to create additional elements in DOM and move <audio>
-		preparedPlayer: false
+		pauseOtherPlayers: true
 	};
 
 	mejs.mepIndex = mejs.mepIndex || 0;
@@ -129,22 +126,16 @@
 				// remove native controls
 				t.$media.removeAttr('controls');
 
-				if (meOptions.preparedPlayer) {
-					t.container = t.$media.closest('.mejs-container')
-									.attr("id", t.id)
-									.addClass(mejs.MediaFeatures.svg ? 'svg' : 'no-svg');
-				} else {
-					t.container =
-						$('<div id="' + t.id + '" class="mejs-container ' + (mejs.MediaFeatures.svg ? 'svg' : 'no-svg') + '">'+
-							'<div class="mejs-inner">'+
-								'<div class="mejs-mediaelement"></div>'+
-								'<div class="mejs-controls"></div>'+
-								'<div class="mejs-clear"></div>'+
-							'</div>' +
-						'</div>')
-						.addClass(t.$media[0].className)
-						.insertBefore(t.$media);
-				}
+				t.container =
+					$('<div id="' + t.id + '" class="mejs-container ' + (mejs.MediaFeatures.svg ? 'svg' : 'no-svg') + '">'+
+						'<div class="mejs-inner">'+
+							'<div class="mejs-mediaelement"></div>'+
+							'<div class="mejs-controls"></div>'+
+							'<div class="mejs-clear"></div>'+
+						'</div>' +
+					'</div>')
+					.addClass(t.$media[0].className)
+					.insertBefore(t.$media);
 
 				// add classes for user and content
 				t.container.addClass(
@@ -155,25 +146,24 @@
 					'mejs-audio '
 				);
 
-				if (! meOptions.preparedPlayer) {
-					// move the <video/video> tag into the right spot
-					if (mf.isiOS) {
+				// move the <video/video> tag into the right spot
+				if (mf.isiOS) {
 
-						// sadly, you can't move nodes in iOS, so we have to destroy and recreate it!
-						var $newMedia = t.$media.clone();
+					// sadly, you can't move nodes in iOS, so we have to destroy and recreate it!
+					var $newMedia = t.$media.clone();
 
-						t.container.find('.mejs-mediaelement').append($newMedia);
+					t.container.find('.mejs-mediaelement').append($newMedia);
 
-						t.$media.remove();
-						t.$node = t.$media = $newMedia;
-						t.node = t.media = $newMedia[0]
+					t.$media.remove();
+					t.$node = t.$media = $newMedia;
+					t.node = t.media = $newMedia[0]
 
-					} else {
+				} else {
 
-						// normal way of moving it into place (doesn't work on iOS)
-						t.container.find('.mejs-mediaelement').append(t.$media);
-					}
+					// normal way of moving it into place (doesn't work on iOS)
+					t.container.find('.mejs-mediaelement').append(t.$media);
 				}
+
 				// find parts
 				t.controls = t.container.find('.mejs-controls');
 
