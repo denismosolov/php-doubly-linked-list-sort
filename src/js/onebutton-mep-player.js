@@ -59,12 +59,6 @@
 			t.node.player = t;
 		}
 
-
-		// try to get options from data-mejsoptions
-		if (typeof o == 'undefined') {
-			o = t.$node.data('mejsoptions');
-		}
-
 		// extend default options
 		t.options = $.extend({},mejs.OnebuttonMepDefaults,o);
 
