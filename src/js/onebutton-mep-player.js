@@ -28,10 +28,7 @@
 		features: ['playpause'],
 
 		// whenthis player starts, it will pause other players
-		pauseOtherPlayers: true,
-
-		// this means that <audio> tag already in mejs-wrapper, so no need to create additional elements in DOM and move <audio>
-		preparedPlayer: false
+		pauseOtherPlayers: true
 	};
 
 	mejs.mepIndex = mejs.mepIndex || 0;
@@ -39,43 +36,45 @@
 	mejs.onebuttonplayers = mejs.onebuttonplayers || {};
 
 	// wraps a MediaElement object in player controls
-	mejs.OnebuttonMediaElementPlayer = function(node, o) {
+	mejs.OnebuttonMediaElementPlayer = function(container, o) {
 		// enforce object, even without "new" (via John Resig)
 		if ( !(this instanceof mejs.OnebuttonMediaElementPlayer) ) {
-			return new mejs.OnebuttonMediaElementPlayer(node, o);
+			return new mejs.OnebuttonMediaElementPlayer(container, o);
 		}
 
 		var t = this;
 
-		// these will be reset after the MediaElement.success fires
-		t.$media = t.$node = $(node);
-		t.node = t.media = t.$media[0];
+		t.$container = $(container);
 
-		// check for existing player
-		if (typeof t.node.player != 'undefined') {
-			return t.node.player;
-		} else {
-			// attach player to DOM node for reference
-			t.node.player = t;
-		}
+		t.$container.one('click', function(){
+			// create <audio> on first click, then init the player
+			var audioHTML = $('<audio src="'+t.$container.data('url')+'" autoplay></audio>').appendTo(t.$container),
+				node = audioHTML.get(0);
 
+			// these will be reset after the MediaElement.success fires
+			t.$media = t.$node = $(node);
+			t.node = t.media = t.$media[0];
 
-		// try to get options from data-mejsoptions
-		if (typeof o == 'undefined') {
-			o = t.$node.data('mejsoptions');
-		}
+			// check for existing player
+			if (typeof t.node.player != 'undefined') {
+				return t.node.player;
+			} else {
+				// attach player to DOM node for reference
+				t.node.player = t;
+			}
 
-		// extend default options
-		t.options = $.extend({},mejs.OnebuttonMepDefaults,o);
+			// extend default options
+			t.options = $.extend({},mejs.OnebuttonMepDefaults,o);
 
-		// unique ID
-		t.id = 'mep_' + mejs.mepIndex++;
+			// unique ID
+			t.id = 'mep_' + mejs.mepIndex++;
 
-		// add to player array (for focus events)
-		mejs.onebuttonplayers[t.id] = t;
+			// add to player array (for focus events)
+			mejs.onebuttonplayers[t.id] = t;
 
-		// start up
-		t.init();
+			// start up
+			t.init();
+		});
 
 		return t;
 	};
@@ -127,22 +126,16 @@
 				// remove native controls
 				t.$media.removeAttr('controls');
 
-				if (meOptions.preparedPlayer) {
-					t.container = t.$media.closest('.mejs-container')
-									.attr("id", t.id)
-									.addClass(mejs.MediaFeatures.svg ? 'svg' : 'no-svg');
-				} else {
-					t.container =
-						$('<div id="' + t.id + '" class="mejs-container ' + (mejs.MediaFeatures.svg ? 'svg' : 'no-svg') + '">'+
-							'<div class="mejs-inner">'+
-								'<div class="mejs-mediaelement"></div>'+
-								'<div class="mejs-controls"></div>'+
-								'<div class="mejs-clear"></div>'+
-							'</div>' +
-						'</div>')
-						.addClass(t.$media[0].className)
-						.insertBefore(t.$media);
-				}
+				t.container =
+					$('<div id="' + t.id + '" class="mejs-container ' + (mejs.MediaFeatures.svg ? 'svg' : 'no-svg') + '">'+
+						'<div class="mejs-inner">'+
+							'<div class="mejs-mediaelement"></div>'+
+							'<div class="mejs-controls"></div>'+
+							'<div class="mejs-clear"></div>'+
+						'</div>' +
+					'</div>')
+					.addClass(t.$media[0].className)
+					.insertBefore(t.$media);
 
 				// add classes for user and content
 				t.container.addClass(
@@ -153,25 +146,24 @@
 					'mejs-audio '
 				);
 
-				if (! meOptions.preparedPlayer) {
-					// move the <video/video> tag into the right spot
-					if (mf.isiOS) {
+				// move the <video/video> tag into the right spot
+				if (mf.isiOS) {
 
-						// sadly, you can't move nodes in iOS, so we have to destroy and recreate it!
-						var $newMedia = t.$media.clone();
+					// sadly, you can't move nodes in iOS, so we have to destroy and recreate it!
+					var $newMedia = t.$media.clone();
 
-						t.container.find('.mejs-mediaelement').append($newMedia);
+					t.container.find('.mejs-mediaelement').append($newMedia);
 
-						t.$media.remove();
-						t.$node = t.$media = $newMedia;
-						t.node = t.media = $newMedia[0]
+					t.$media.remove();
+					t.$node = t.$media = $newMedia;
+					t.node = t.media = $newMedia[0]
 
-					} else {
+				} else {
 
-						// normal way of moving it into place (doesn't work on iOS)
-						t.container.find('.mejs-mediaelement').append(t.$media);
-					}
+					// normal way of moving it into place (doesn't work on iOS)
+					t.container.find('.mejs-mediaelement').append(t.$media);
 				}
+
 				// find parts
 				t.controls = t.container.find('.mejs-controls');
 
