@@ -452,41 +452,9 @@
 				t.height = height;
 			}
 
-			// detect 100% mode - use currentStyle for IE since css() doesn't return percentages
-      		if (t.height.toString().indexOf('%') > 0 || t.$node.css('max-width') === '100%' || (t.$node[0].currentStyle && t.$node[0].currentStyle.maxWidth === '100%')) {
-
-				// do we have the native dimensions yet?
-				var
-					nativeWidth = t.options.defaultAudioWidth,
-					nativeHeight = t.options.defaultAudioHeight,
-					parentWidth = t.container.parent().closest(':visible').width(),
-					newHeight = nativeHeight;
-
-				if (t.container.parent()[0].tagName.toLowerCase() === 'body') { // && t.container.siblings().count == 0) {
-					parentWidth = $(window).width();
-					newHeight = $(window).height();
-				}
-
-				if ( newHeight != 0 && parentWidth != 0 ) {
-					// set outer container size
-					t.container
-						.width(parentWidth)
-						.height(newHeight);
-
-					// set native <video> or <audio> and shims
-					t.$media.add(t.container.find('.mejs-shim'))
-						.width('100%')
-						.height('100%');
-
-				}
-
-
-			} else {
-
-				t.container
-					.width(t.width)
-					.height(t.height);
-			}
+			t.container
+				.width(t.width)
+				.height(t.height);
 		},
 
 		setControlsSize: function() {
