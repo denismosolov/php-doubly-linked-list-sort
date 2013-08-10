@@ -599,11 +599,6 @@
 		};
 	}
 
-	$(document).ready(function() {
-		// auto enable using JSON attribute
-		$('.mejs-player').onebuttonmediaelementplayer();
-	});
-
 	// push out to window
 	window.OnebuttonMediaElementPlayer = mejs.OnebuttonMediaElementPlayer;
 
