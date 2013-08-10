@@ -206,95 +206,6 @@
 			}
 		},
 
-		showControls: function() {
-			var t = this;
-
-			if (t.controlsAreVisible)
-				return;
-
-			t.controls
-				.css('visibility','visible')
-				.css('display','block');
-
-			// any additional controls people might add and want to hide
-			t.container.find('.mejs-control')
-				.css('visibility','visible')
-				.css('display','block');
-
-			t.controlsAreVisible = true;
-			t.container.trigger('controlsshown');
-
-			t.setControlsSize();
-
-		},
-
-		hideControls: function() {
-			var t = this;
-
-			if (!t.controlsAreVisible)
-				return;
-
-			// hide main controls
-			t.controls
-				.css('visibility','hidden')
-				.css('display','block');
-
-			// hide others
-			t.container.find('.mejs-control')
-				.css('visibility','hidden')
-				.css('display','block');
-
-			t.controlsAreVisible = false;
-			t.container.trigger('controlshidden');
-		},
-
-		controlsTimer: null,
-
-		startControlsTimer: function(timeout) {
-
-			var t = this;
-
-			timeout = typeof timeout != 'undefined' ? timeout : 1500;
-
-			t.killControlsTimer('start');
-
-			t.controlsTimer = setTimeout(function() {
-				//console.log('timer fired');
-				t.hideControls();
-				t.killControlsTimer('hide');
-			}, timeout);
-		},
-
-		killControlsTimer: function(src) {
-
-			var t = this;
-
-			if (t.controlsTimer !== null) {
-				clearTimeout(t.controlsTimer);
-				delete t.controlsTimer;
-				t.controlsTimer = null;
-			}
-		},
-
-		controlsEnabled: true,
-
-		disableControls: function() {
-			var t= this;
-
-			t.killControlsTimer();
-			t.hideControls();
-			this.controlsEnabled = false;
-		},
-
-		enableControls: function() {
-			var t= this;
-
-			t.showControls();
-
-			t.controlsEnabled = true;
-		},
-
-
 		// Sets up all controls and events
 		meReady: function(media, domNode) {
 
@@ -336,7 +247,6 @@
 
 				// reset all layers and controls
 				t.setPlayerSize(t.width, t.height);
-				t.setControlsSize();
 
 				// EVENTS
 
@@ -366,17 +276,8 @@
 					}
 					t.media.pause();
 
-					if (t.setProgressRail) {
-						t.setProgressRail();
-					}
-					if (t.setCurrentRail) {
-						t.setCurrentRail();
-					}
-
 					if (t.options.loop) {
 						t.media.play();
-					} else if (t.controlsEnabled) {
-						t.showControls();
 					}
 				}, false);
 
@@ -391,7 +292,6 @@
 
 					if (!t.isFullScreen) {
 						t.setPlayerSize(t.width, t.height);
-						t.setControlsSize();
 					}
 				}, false);
 
@@ -399,7 +299,6 @@
 				// webkit has trouble doing this without a delay
 				setTimeout(function () {
 					t.setPlayerSize(t.width, t.height);
-					t.setControlsSize();
 				}, 50);
 
 				// TEMP: needs to be moved somewhere else
@@ -452,18 +351,9 @@
 				.height(t.height);
 		},
 
-		setControlsSize: function() {
-			var t = this;
-			if (t.setProgressRail)
-				t.setProgressRail();
-			if (t.setCurrentRail)
-				t.setCurrentRail();
-		},
-
 		changeSkin: function(className) {
 			this.container[0].className = 'mejs-container ' + className;
 			this.setPlayerSize(this.width, this.height);
-			this.setControlsSize();
 		},
 		play: function() {
 			this.media.play();
