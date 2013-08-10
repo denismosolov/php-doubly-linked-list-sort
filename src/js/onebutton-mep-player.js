@@ -573,7 +573,6 @@
 			delete mejs.onebuttonplayers[t.id];
 
 			t.container.remove();
-			t.globalUnbind();
 			delete t.node.player;
 		}
 	};
