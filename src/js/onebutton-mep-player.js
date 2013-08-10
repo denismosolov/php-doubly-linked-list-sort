@@ -82,8 +82,6 @@
 	// actual player
 	mejs.OnebuttonMediaElementPlayer.prototype = {
 
-		hasFocus: false,
-
 		controlsAreVisible: true,
 
 		init: function() {
@@ -357,10 +355,8 @@
 						if (p.id != t.id && t.options.pauseOtherPlayers && !p.paused && !p.ended) {
 							p.pause();
 						}
-						p.hasFocus = false;
 					}
 
-					t.hasFocus = true;
 				},false);
 
 
