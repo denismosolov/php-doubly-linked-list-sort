@@ -96,11 +96,6 @@
 				}),
 				tagName = t.media.tagName.toLowerCase();
 
-			t.isDynamic = (tagName !== 'audio');
-			if (tagName !== 'audio') {
-				throw "OnebuttonMediaElementPlayer: audio expected, but " + tagName + " founded";
-			}
-
 			// use native controls in iPad, iPhone, and Android
 			if ((mf.isiPad && t.options.iPadUseNativeControls) || (mf.isiPhone && t.options.iPhoneUseNativeControls)) {
 
@@ -522,16 +517,14 @@
 			}
 
 			// grab video and put it back in place
-			if (!t.isDynamic) {
-				if (t.media.pluginType === 'native') {
-					// detach events from the video
-					// TODO: detach event listeners better than this;
-					//       also detach ONLY the events attached by this plugin!
-					//t.$node.clone().insertBefore(t.container);
-					//t.$node.remove();
-				}
-				/*else*/ t.$node.insertBefore(t.container)
+			if (t.media.pluginType === 'native') {
+				// detach events from the video
+				// TODO: detach event listeners better than this;
+				//       also detach ONLY the events attached by this plugin!
+				//t.$node.clone().insertBefore(t.container);
+				//t.$node.remove();
 			}
+			/*else*/ t.$node.insertBefore(t.container)
 
 			// Remove the player from the mejs.onebuttonplayers object so that pauseOtherPlayers doesn't blow up when trying to pause a non existance flash api.
 			delete mejs.onebuttonplayers[t.id];
