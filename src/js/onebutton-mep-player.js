@@ -233,7 +233,7 @@
 					feature = t.options.features[featureIndex];
 					if (t['build' + feature]) {
 						try {
-							t['build' + feature](t, t.controls, /*t.layers,*/ t.media);
+							t['build' + feature](t, t.controls, t.media);
 						} catch (e) {
 							// TODO: report control error
 							//throw e;
@@ -283,16 +283,7 @@
 
 				// resize on the first play
 				t.media.addEventListener('loadedmetadata', function(e) {
-					if (t.updateDuration) {
-						t.updateDuration();
-					}
-					if (t.updateCurrent) {
-						t.updateCurrent();
-					}
-
-					if (!t.isFullScreen) {
 						t.setPlayerSize(t.width, t.height);
-					}
 				}, false);
 
 
@@ -300,11 +291,6 @@
 				setTimeout(function () {
 					t.setPlayerSize(t.width, t.height);
 				}, 50);
-
-				// TEMP: needs to be moved somewhere else
-				if (t.media.pluginType == 'youtube') {
-					t.container.find('.mejs-overlay-play').hide();
-				}
 			}
 
 			// force autoplay for HTML5
