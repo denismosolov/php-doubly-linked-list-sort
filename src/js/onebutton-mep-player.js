@@ -411,19 +411,6 @@
 					t.setControlsSize();
 				}, 50);
 
-				// adjust controls whenever window sizes (used to be in fullscreen only)
-				// @todo: Denis: prbably we dont need this too
-				t.globalBind('resize', function() {
-
-					// don't resize for fullscreen mode
-					if ( !(t.isFullScreen || (mejs.MediaFeatures.hasTrueNativeFullScreen && document.webkitIsFullScreen)) ) {
-						t.setPlayerSize(t.width, t.height);
-					}
-
-					// always adjust controls
-					t.setControlsSize();
-				});
-
 				// TEMP: needs to be moved somewhere else
 				if (t.media.pluginType == 'youtube') {
 					t.container.find('.mejs-overlay-play').hide();
@@ -590,42 +577,6 @@
 			delete t.node.player;
 		}
 	};
-
-	(function(){
-		var rwindow = /^((after|before)print|(before)?unload|hashchange|message|o(ff|n)line|page(hide|show)|popstate|resize|storage)\b/;
-
-		function splitEvents(events, id) {
-			// add player ID as an event namespace so it's easier to unbind them all later
-			var ret = {d: [], w: []};
-			$.each((events || '').split(' '), function(k, v){
-				var eventname = v + '.' + id;
-				if (eventname.indexOf('.') === 0) {
-					ret.d.push(eventname);
-					ret.w.push(eventname);
-				}
-				else {
-					ret[rwindow.test(v) ? 'w' : 'd'].push(eventname);
-				}
-			});
-			ret.d = ret.d.join(' ');
-			ret.w = ret.w.join(' ');
-			return ret;
-		}
-
-		mejs.OnebuttonMediaElementPlayer.prototype.globalBind = function(events, data, callback) {
-			var t = this;
-			events = splitEvents(events, t.id);
-			if (events.d) $(document).bind(events.d, data, callback);
-			if (events.w) $(window).bind(events.w, data, callback);
-		};
-
-		mejs.OnebuttonMediaElementPlayer.prototype.globalUnbind = function(events, callback) {
-			var t = this;
-			events = splitEvents(events, t.id);
-			if (events.d) $(document).unbind(events.d, callback);
-			if (events.w) $(window).unbind(events.w, callback);
-		};
-	})();
 
 	// turn into jQuery plugin
 	if (typeof jQuery != 'undefined') {
