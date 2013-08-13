@@ -28,7 +28,9 @@
 		features: ['playpause'],
 
 		// whenthis player starts, it will pause other players
-		pauseOtherPlayers: true
+		pauseOtherPlayers: true,
+
+		delayWithoutShowingAnimation: 500
 	};
 
 	mejs.mepIndex = mejs.mepIndex || 0;
@@ -42,19 +44,43 @@
 			return new mejs.OnebuttonMediaElementPlayer(container, o);
 		}
 
-		var t = this;
+		var t = this, audioHTML, node;
 
 		t.$container = $(container);
 
-		t.$container.one('click', function(){
-			// create <audio> on first click, then init the player
-			var audioHTML = $('<audio src="'+t.$container.data('url')+'" autoplay></audio>').appendTo(t.$container),
+		if (mejs.MediaFeatures.isiOS) {
+			t.$container.addClass('onebutton-ios-dummy-play');
+			t.$container.one('click', function(){
+				// create <audio> on first click, then init the player
+				audioHTML = $('<audio src="'+t.$container.data('url')+'" autoplay />').appendTo(t.$container);
 				node = audioHTML.get(0);
-
+				// these will be reset after the MediaElement.success fires
+				t.$media = t.$node = $(node);
+				t.node = t.media = t.$media[0];
+				// check for existing player
+				if (typeof t.node.player != 'undefined') {
+					return t.node.player;
+				} else {
+					// attach player to DOM node for reference
+					t.node.player = t;
+				}
+				// extend default options
+				t.options = $.extend({},mejs.OnebuttonMepDefaults,o);
+				// unique ID
+				t.id = 'mep_' + mejs.mepIndex++;
+				// add to player array (for focus events)
+				mejs.onebuttonplayers[t.id] = t;
+				// start up
+				t.init();
+				t.$container.removeClass('onebutton-ios-dummy-play');
+			});
+		} else {
+			// create <audio> on first click, then init the player
+			audioHTML = $('<audio src="'+t.$container.data('url')+'" preload="none" />').appendTo(t.$container);
+			node = audioHTML.get(0);
 			// these will be reset after the MediaElement.success fires
 			t.$media = t.$node = $(node);
 			t.node = t.media = t.$media[0];
-
 			// check for existing player
 			if (typeof t.node.player != 'undefined') {
 				return t.node.player;
@@ -62,19 +88,15 @@
 				// attach player to DOM node for reference
 				t.node.player = t;
 			}
-
 			// extend default options
 			t.options = $.extend({},mejs.OnebuttonMepDefaults,o);
-
 			// unique ID
 			t.id = 'mep_' + mejs.mepIndex++;
-
 			// add to player array (for focus events)
 			mejs.onebuttonplayers[t.id] = t;
-
 			// start up
 			t.init();
-		});
+		}
 
 		return t;
 	};

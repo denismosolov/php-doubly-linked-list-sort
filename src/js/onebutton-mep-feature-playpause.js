@@ -10,7 +10,7 @@
 			var 
 				t = this,
 				play = 
-				$('<div class="mejs-button mejs-playpause-button mejs-play onebutton-loading" >' +
+				$('<div class="mejs-button mejs-playpause-button mejs-play" >' +
 					'<button type="button" aria-controls="' + t.id + '" title="' + t.options.playpauseText + '" aria-label="' + t.options.playpauseText + '"></button>' +
 				'</div>')
 				.appendTo(controls)
@@ -24,24 +24,26 @@
 					}
 					
 					return false;
-				});
-			
-			media.addEventListener('canplay', function(){
-				play.removeClass('onebutton-loading');
-			}, false);
+				}), t;
 
 			media.addEventListener('play',function() {
 				play.removeClass('mejs-play').addClass('mejs-pause');
+				t = setTimeout(function(){
+					play.addClass('onebutton-loading');
+				}, player.options.delayWithoutShowingAnimation);
 			}, false);
 			media.addEventListener('playing',function() {
-				play.removeClass('mejs-play').addClass('mejs-pause');
+				if (t) {
+					clearTimeout(t);
+				}
+				play.removeClass('mejs-play onebutton-loading').addClass('mejs-pause');
 			}, false);
 
 			media.addEventListener('pause',function() {
-				play.removeClass('mejs-pause').addClass('mejs-play');
+				play.removeClass('mejs-pause onebutton-loading').addClass('mejs-play');
 			}, false);
 			media.addEventListener('paused',function() {
-				play.removeClass('mejs-pause').addClass('mejs-play');
+				play.removeClass('mejs-pause onebutton-loading').addClass('mejs-play');
 			}, false);
 		}
 	});
