@@ -8,6 +8,7 @@ def remove_console(text):
 
 me_filename = 'mediaelement'
 mep_filename = 'mediaelementplayer'
+onebutton_mep_filename = 'mediaelementonebuttonplayer'
 combined_filename = 'mediaelement-and-player'
 
 # BUILD MediaElement (single file)
@@ -66,6 +67,27 @@ tmp_file = open('../build/' + mep_filename + '.js','w')
 tmp_file.write(code)
 tmp_file.close()
 
+# BUILD MediaElementPlayer (single file)
+print('building OnebuttonMediaElementPlayer.js')
+onebutton_mep_files = []
+onebutton_mep_files.append('onebutton-mep-header.js')
+onebutton_mep_files.append('onebutton-mep-library.js')
+onebutton_mep_files.append('onebutton-mep-player.js')
+onebutton_mep_files.append('onebutton-mep-feature-playpause.js')
+
+code = ''
+
+for item in onebutton_mep_files:
+        src_file = open('js/' + item,'r')
+        code += src_file.read() + "\n"
+
+code = remove_console(code)
+
+tmp_file = open('../build/' + onebutton_mep_filename + '.js','w')
+tmp_file.write(code)
+tmp_file.close()
+
+
 # MINIFY both scripts
 
 print('Minifying JavaScript')
@@ -73,6 +95,7 @@ print('Minifying JavaScript')
 # os.system("java -jar yuicompressor-2.4.2.jar ../build/" + mep_filename + ".js -o ../build/" + mep_filename + ".min.js --charset utf-8 -v")
 os.system("java -jar compiler.jar --js ../build/" + me_filename + ".js --js_output_file ../build/" + me_filename + ".min.js")
 os.system("java -jar compiler.jar --js ../build/" + mep_filename + ".js --js_output_file ../build/" + mep_filename + ".min.js")
+os.system("java -jar compiler.jar --js ../build/" + onebutton_mep_filename + ".js --js_output_file ../build/" + onebutton_mep_filename + ".min.js")
 
 # PREPEND intros
 def addHeader(headerFilename, filename):
@@ -97,6 +120,7 @@ def addHeader(headerFilename, filename):
 
 addHeader('js/me-header.js', '../build/' + me_filename + '.min.js')
 addHeader('js/mep-header.js', '../build/' + mep_filename + '.min.js')
+addHeader('js/onebutton-mep-header.js', '../build/' + onebutton_mep_filename + '.min.js')
 
 
 # COMBINE into single script
@@ -105,6 +129,8 @@ code = ''
 src_file = open('../build/' + me_filename + '.js','r')
 code += src_file.read() + "\n"
 src_file = open('../build/' + mep_filename + '.js','r')
+code += src_file.read() + "\n"
+src_file = open('../build/' + onebutton_mep_filename + '.js','r')
 code += src_file.read() + "\n"
 
 tmp_file = open('../build/' + combined_filename + '.js','w')
@@ -115,6 +141,8 @@ code = ''
 src_file = open('../build/' + me_filename + '.min.js','r')
 code += src_file.read() + "\n"
 src_file = open('../build/' + mep_filename + '.min.js','r')
+code += src_file.read() + "\n"
+src_file = open('../build/' + onebutton_mep_filename + '.min.js','r')
 code += src_file.read() + "\n"
 
 tmp_file = open('../build/' + combined_filename + '.min.js','w')
