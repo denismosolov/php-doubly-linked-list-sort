@@ -1,4 +1,3 @@
-php-doubly-linked-list-sort
+SplDoublyLinkedList sort extension
 ===========================
-
-SplDoublyLinkedList::sort() extension
+This project implements sort() method for SplDoublyLinkedList
