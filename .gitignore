@@ -9,3 +9,5 @@ build/*
 tests/*
 newfeatures/*
 /mejs3/
+nbproject/
+
