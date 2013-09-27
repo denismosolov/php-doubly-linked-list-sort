@@ -16,38 +16,16 @@ class DoublyLinkedList extends \SplDoublyLinkedList {
      * All node values must implement Mosolov\Datastructures\Node\ICompare
      */
     public function sort() {
-        if ($this->isEmpty()) {
-            return;
-        } elseif ($this->count() === 0) {
-            return;
-        } elseif ($this->count() === 1) {
-            return;
-        } elseif ($this->count() === 2) {
-            $first = $this->shift();
-            if (! $first instanceof \Mosolov\Datastructure\Node\ICompare) {
-                $this->unshift($first);
-                throw new \RuntimeException(self::EX_MSG_UNSORTABLE_NODE_DETECTED, self::EX_CODE_UNSORTABLE_NODE_DETECTED);
+        $heap = new Heap();
+        try {
+            while (! $this->isEmpty()) { // $this->valid() has no effect
+                $heap->insert($this->shift());
             }
-            $second = $this->shift();
-            if (! $second instanceof \Mosolov\Datastructure\Node\ICompare) {
-                throw new \RuntimeException(self::EX_MSG_UNSORTABLE_NODE_DETECTED, self::EX_CODE_UNSORTABLE_NODE_DETECTED);
+            while (! $heap->isEmpty()) { // BUT $this->valid() works fine here !
+                $this->unshift($heap->extract());
             }
-            
-            if ($first->isEqual($second)) {
-                $this->unshift($second);
-                $this->unshift($first);
-                return;
-            } elseif ($first->isGreaterThan($second)) {
-                $this->unshift($second);
-                $this->unshift($first);
-                return;
-            } else {
-                $this->unshift($first);
-                $this->unshift($second);
-            }
-        } else {
-            return;
+        } catch(\RuntimeException $e) {
+            throw new \RuntimeException(self::EX_MSG_UNSORTABLE_NODE_DETECTED, self::EX_CODE_UNSORTABLE_NODE_DETECTED);
         }
-        
     }
 }

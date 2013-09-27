@@ -34,7 +34,7 @@ class DoublyLinkedListTest extends \PHPUnit_Framework_TestCase {
      */
     public function testSort() {
         $this->assertCount(0, $this->object);
-        
+        $this->object->sort();
         // list has only one node
         // sort operation must not be executed
         // so no need check the value of node
