@@ -29,10 +29,10 @@ module.exports = function(grunt) {
             //'mep-feature-sourcechooser.js'
           ],
           onebuttonplayer: [
-            '/src/js/onebutton-mep-header.js',
-            '/src/js/onebutton-mep-library.js',
-            '/src/js/onebutton-mep-player.js',
-            '/src/js/onebutton-mep-feature-playpause.js'
+            'src/js/onebutton-mep-header.js',
+            'src/js/onebutton-mep-library.js',
+            'src/js/onebutton-mep-player.js',
+            'src/js/onebutton-mep-feature-playpause.js'
           ]
     },
     meHeader = '/*!\n* MediaElement.js\n* HTML5 <video> and <audio> shim and player\n* http://mediaelementjs.com/\n*\n* Creates a JavaScript object that mimics HTML5 MediaElement API\n* for browsers that don\'t understand HTML5 or can\'t play the provided codec\n* Can play MP4 (H.264), Ogg, WebM, FLV, WMV, WMA, ACC, and MP3\n*\n* Copyright 2010-2013, John Dyer (http://j.hn)\n* License: MIT\n* <%= grunt.template.today("dd-mm-yyyy") %>\n*\n*/\n',
@@ -166,7 +166,8 @@ module.exports = function(grunt) {
             style: 'expanded'
           },
           files: {
-            'src/css/mediaelementplayer.css': 'src/scss/mediaelementplayer.scss'
+            'src/css/mediaelementplayer.css': 'src/scss/mediaelementplayer.scss',
+            'src/css/playlist.css': 'src/scss/playlist.scss'
           }
         },
         min: {
@@ -174,7 +175,8 @@ module.exports = function(grunt) {
             style: 'expanded'
           },
           files: {
-            'build/mediaelementplayer.min.css': 'src/scss/mediaelementplayer.scss'
+            'build/mediaelementplayer.min.css': 'src/scss/mediaelementplayer.scss',
+            'build/playlist.min.css': 'src/scss/playlist.scss'
           }
         }
       }
@@ -198,6 +200,8 @@ module.exports = function(grunt) {
         grunt.file.copy('src/css/controls-ted.png','build/controls-ted.png');
         grunt.file.copy('src/css/controls-wmp.png','build/controls-wmp.png');
         grunt.file.copy('src/css/controls-wmp-bg.png','build/controls-wmp-bg.png');
+        
+        grunt.file.copy('src/js/ill-lesson-playlist.js', 'build/ill-lesson-playlist.js');
     });
     
     grunt.registerTask('default', [/*'jshint',*/ 'concat', 'uglify', 'sass', 'movefiles']);
